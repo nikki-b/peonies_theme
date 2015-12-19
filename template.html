@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{Title}</title>
+  <meta name="image:Header" content="{HeaderImage}">
+  <meta name="image:Background" content="http://i.imgur.com/cEZceLN.png">
+  <meta name="font:Title" content="Streetscript">
+  <meta name="font:Subtitles" content="Fang Song">
+  <meta name="font:Main Font" content="Helvetica">
+  <meta name="text:Wedding Date" content="">
+  <meta name="text:Wedding Location" content="">
+  <meta name="color:Post Title Color" content="#45966e">
+  <meta name="color:Header Text Color" content="#ffffff">
+  <meta name="if:Enable Blog" content="1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  <style>
+	  *{
+      padding: 0;
+      margin: 0 auto;
+	  }
+	  header{
+      height: 100vh;
+      background-image: url("{image:Header}");
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+	  }
+	  header h1{
+      font-size: 3.5em;
+      color: {color:Header Text Color};
+      font-family: {font:Title};
+	  }
+	  header h3{
+      color: {color:Header Text Color};
+      font-family: {font:Subtitles};
+	  }
+		.avatar{
+	    border-radius: 70px;
+		}
+		.navbar{
+	    position: absolute;
+	    top: 0px;
+	    left: 0px;
+	    width: 100%;
+	    background-color: rgba(255,255,255,0.5);
+	    border: 0;
+	    font-family: {font:Subtitles};
+	    display: inline-block;
+	    float: none;
+	    text-align: center;
+		}
+	  .blog-container{
+      background: #eee url("{image:Background}");
+      min-height: 500px;
+	  }
+	  .post{
+      text-align: center;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      padding: 5px;
+      border: 1px solid darkgrey;
+      background-color: #eee;
+      font-family: {font:Main Font};
+	  }
+	  .post h3{
+      font-family: {font:Title};
+	  }
+	  .post h3 a{
+      color: {color:Post Title Color};
+	  }
+	  .post h3 a:hover{
+      text-decoration: none;
+	  }
+	  .like-reblog{
+      text-align:right;
+	  }
+	  .like-reblog li{
+      display: inline-block;
+      vertical-align: top;
+	  }
+	  .like-reblog a{
+      color: {color:Post Title Color};
+      text-decoration: none;
+	  }
+	  footer{
+      font-family: {font:Main Font};
+      color: {color:Header Text Color};
+      background-color: {color:Post Title Color};
+      height: 30px;
+	  }
+	  footer a{
+      text-decoration: none;
+      color: #eee;
+	  }
+  </style>
+</head>
+<body>
+    <!-- header, info -->
+    <header>
+        <!-- sticky navbar -->
+        <nav class="navbar navbar-default navbar-static-top">
+          <div class="container-fluid">
+              <ul class="nav navbar-nav">
+                <li><a href="{BlogURL}">Home</a></li>
+                {block:HasPages}
+                    {block:Pages}
+                        <li><a href="{URL}">{Label}</a></li>
+                    {/block:Pages}
+                {/block:HasPages}
+                {block:IfEnableBlog}
+                    <li><a href="#blog">Blog</a></li>
+                {/block:IfEnableBlog}
+              </ul>
+          </div><!-- /.container-fluid -->
+        </nav>
+        <img class="avatar" src="{PortraitURL-128}">
+        <h1>{Title}</h1>
+        {block:Description}
+			    <h3>{Description}</h3>
+		{/block:Description}
+        <h3>{text:Wedding Date} | {text:Wedding Location}</h3>
+    </header>
+    
+    <!-- OUR STORY -->
+    
+    
+    <!-- BLOG -->
+    {block:IfEnableBlog}
+    	<!-- posts -->
+    	<div class="container-fluid blog-container">
+    	    <div class="post-container col-sm-6 col-sm-offset-3">
+    	    <a name="blog"></a>
+    		{block:Posts}
+    			{block:Text}
+    				<div class="post">
+    					{block:Title}
+    						<h3><a href="{Permalink}">{Title}</a></h3>
+    					{/block:Title}
+    					{Body}
+    					<ul class="like-reblog">
+    						<li>{LikeButton}</li>
+    						<li>{ReblogButton}</li>
+    						<li>{block:NoteCount}<a href="{Permalink}#notes">{NoteCountWithLabel}</a>{/block:NoteCount}</li>
+    						<li>{block:Date}<a href="{Permalink}">{TimeAgo}</a>{/block:Date}</li>
+    					</ul>
+    				</div>
+    				{block:PostNotes}{PostNotes}{/block:PostNotes}
+    			{/block:Text}
+    
+    			{block:Photo} 
+    				<div class="post">	
+    					<img class="img-responsive" src="{PhotoURL-500}">
+    					{block:Caption}<span class="sub-t">{Caption}</span>{/block:Caption}
+    					<ul class="like-reblog">
+    						<li>{LikeButton}</li>
+    						<li>{ReblogButton}</li>
+    						<li>{block:NoteCount}<a href="{Permalink}#notes">{NoteCountWithLabel}</a>{/block:NoteCount}</li>
+    						<li>{block:Date}<a href="{Permalink}">{TimeAgo}</a>{/block:Date}</li>
+    					</ul>
+    				</div>
+    				{block:PostNotes}{PostNotes}{/block:PostNotes}
+    			{/block:Photo}
+    
+    			{block:Quote}
+    				<div class="post">
+    					<h3>{Quote}</h3>
+    			   	{block:Source}<br><span class="sub-t">&mdash;{Source}{/block:Source}
+    					<ul class="like-reblog">
+    						<li>{LikeButton}</li>
+    						<li>{ReblogButton}</li>
+    						<li>{block:NoteCount}<a href="{Permalink}#notes">{NoteCountWithLabel}</a>{/block:NoteCount}</li>
+    						<li>{block:Date}<a href="{Permalink}">{TimeAgo}</a>{/block:Date}</li>
+    					</ul>
+    				</div>
+    				{block:PostNotes}{PostNotes}{/block:PostNotes}
+    			{/block:Quote}
+    
+    			{block:Link}
+    				<div class="post">
+    		  		<a href="{URL}" {Target}><h3>{Name}</h3></a>
+    		  		{block:Description}<span class="sub-t">{Description}</span>{/block:Description}
+    					<ul class="like-reblog">
+    						<li>{LikeButton}</li>
+    						<li>{ReblogButton}</li>
+    						<li>{block:NoteCount}<a href="{Permalink}#notes">{NoteCountWithLabel}</a>{/block:NoteCount}</li>
+    						<li>{block:Date}<a href="{Permalink}">{TimeAgo}</a>{/block:Date}</li>
+    					</ul>
+    				</div>
+    				{block:PostNotes}{PostNotes}{/block:PostNotes}
+    			{/block:Link}
+    
+    			{block:Chat}
+    				<div class="post">
+    					{block:Title}{Title}{/block:Title}
+    					<table>
+    						{block:Lines}
+    						<tr>
+    							<th>{block:Label}{Label}{/block:Label}</th>
+    							<td>{Line}</td>
+    						</tr>
+    						{/block:Lines}
+    					</table>
+    					<ul class="like-reblog">
+    						<li>{LikeButton}</li>
+    						<li>{ReblogButton}</li>
+    						<li>{block:NoteCount}<a href="{Permalink}#notes">{NoteCountWithLabel}</a>{/block:NoteCount}</li>
+    						<li>{block:Date}<a href="{Permalink}">{TimeAgo}</a>{/block:Date}</li>
+    					</ul>
+    				</div>
+    				{block:PostNotes}{PostNotes}{/block:PostNotes}
+    			{/block:Chat}
+    
+    			{block:Audio}
+    				<div class="post">
+    					{AudioPlayer}
+    		      {block:Caption}<span class="sub-t">{Caption}</span>{/block:Caption}
+    					<ul class="like-reblog">
+    						<li>{LikeButton}</li>
+    						<li>{ReblogButton}</li>
+    						<li>{block:NoteCount}<a href="{Permalink}#notes">{NoteCountWithLabel}</a>{/block:NoteCount}</li>
+    						<li>{block:Date}<a href="{Permalink}">{TimeAgo}</a>{/block:Date}</li>
+    					</ul>
+    				</div>
+    				{block:PostNotes}{PostNotes}{/block:PostNotes}
+    			{/block:Audio}
+    
+    			{block:Video}
+    				<div class="post">
+    					{Video-500}
+    					{block:Caption}<span class="sub-t">{Caption}</span>{/block:Caption}
+    					<ul class="like-reblog">
+    						<li>{LikeButton}</li>
+    						<li>{ReblogButton}</li>
+    						<li>{block:NoteCount}<a href="{Permalink}#notes">{NoteCountWithLabel}</a>{/block:NoteCount}</li>
+    						<li>{block:Date}<a href="{Permalink}">{TimeAgo}</a>{/block:Date}</li>
+    					</ul>
+    				</div>
+    				{block:PostNotes}{PostNotes}{/block:PostNotes}
+    			{/block:Video}
+    
+    		{/block:Posts}
+    		<!-- PAGINATION -->
+    		{block:Pagination}
+    		    <div class="pagenav">
+    	  	        {block:PreviousPage}
+    	  	            <a href="{PreviousPage}">Previous</a>
+    	  	        {/block:PreviousPage}
+    	  	        {block:NextPage}
+    	  	            <a href="{NextPage}">Next</a>
+    	  	        {/block:NextPage}
+    	        </div>
+            {/block:Pagination}
+            </div>
+    	</div>
+    	<footer>
+            <p class="pull-right">Design by Nikki Brown - <a href="http://nikkicodes.com/themes">nikkicodes.com/themes</a>&nbsp;</p>
+    	</footer>
+	{/block:IfEnableBlog}
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+</body>
+</html>
